@@ -6,6 +6,10 @@ on:
       - 'v*'  # 当推送 v* 标签时触发（如 v1.0.0）
   workflow_dispatch:  # 允许手动触发
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   build:
     runs-on: windows-latest
