@@ -2,6 +2,8 @@
 
 这是 OpenAsMenu 项目的官方网站，使用 Vue 3 + Vite + Tailwind CSS 构建。
 
+**在线访问**: https://pengcunfu.github.io/OpenAsMenu/
+
 ## 项目简介
 
 OpenAsMenu 是一个专业的 Windows 右键菜单管理工具，帮助用户轻松管理和配置右键菜单项。本网站为该工具提供产品介绍、功能展示、下载和使用说明等服务。
