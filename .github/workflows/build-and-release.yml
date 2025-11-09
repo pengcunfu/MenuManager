@@ -69,14 +69,17 @@ jobs:
         echo "VERSION=$version" >> $env:GITHUB_OUTPUT
         echo "Version: $version"
         
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Rename ZIP files with version
+      shell: pwsh
+      run: |
+        $version = "${{ steps.get_version.outputs.VERSION }}"
+        Rename-Item "./OpenAsMenu-win-x64-self-contained.zip" "OpenAsMenu-$version-win-x64-self-contained.zip"
+        Rename-Item "./OpenAsMenu-win-x64-framework-dependent.zip" "OpenAsMenu-$version-win-x64-framework-dependent.zip"
+        
+    - name: Create Release and Upload Assets
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref_name }}
-        release_name: Release ${{ steps.get_version.outputs.VERSION }}
+        name: Release ${{ steps.get_version.outputs.VERSION }}
         body: |
           ## OpenAsMenu ${{ steps.get_version.outputs.VERSION }}
           
@@ -101,34 +104,19 @@ jobs:
           
           ---
           **完整更新日志**: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+        files: |
+          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
+          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
         draft: false
         prerelease: false
-        
-    - name: Upload Self-Contained Release Asset
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./OpenAsMenu-win-x64-self-contained.zip
-        asset_name: OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
-        asset_content_type: application/zip
-        
-    - name: Upload Framework-Dependent Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./OpenAsMenu-win-x64-framework-dependent.zip
-        asset_name: OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
-        asset_content_type: application/zip
         
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: OpenAsMenu-Builds
         path: |
-          ./OpenAsMenu-win-x64-self-contained.zip
-          ./OpenAsMenu-win-x64-framework-dependent.zip
+          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
+          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
         retention-days: 30
