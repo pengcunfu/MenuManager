@@ -63,7 +63,9 @@
                          ScrollViewer.CanContentScroll="False"
                          VirtualizingPanel.IsVirtualizing="False"
                          VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch">
+                         HorizontalAlignment="Stretch"
+                         BorderThickness="0"
+                         Padding="5">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="8">
