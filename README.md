@@ -8,7 +8,7 @@
 
 ## 下载
 
-前往 [Releases](https://github.com/pengcunfu/OpenAsMenu/releases/latest) 页面下载最新版本：
+前往 [Releases](https://github.com/pengcunfu/MenuManager/releases/latest) 页面下载最新版本：
 
 - **独立版本（推荐）**: 无需安装 .NET，开箱即用
 - **依赖版本**: 需要安装 [.NET 8.0 运行时](https://dotnet.microsoft.com/download/dotnet/8.0)
@@ -27,7 +27,7 @@
 
 ### 项目结构
 ```
-OpenAsMenu/
+MenuManager/
 ├── Models/
 │   └── MenuConfig.cs              # 数据模型
 ├── Services/
@@ -175,5 +175,5 @@ dotnet publish --configuration Release --self-contained true --runtime win-x64
 
 ## 联系方式
 
-- 项目地址：https://github.com/pengcunfu/OpenAsMenu
-- 问题反馈：https://github.com/pengcunfu/OpenAsMenu/issues
+- 项目地址：https://github.com/pengcunfu/MenuManager
+- 问题反馈：https://github.com/pengcunfu/MenuManager/issues

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace OpenAsMenu
+namespace MenuManager
 {
     /// <summary>
     /// App.xaml 的交互逻辑

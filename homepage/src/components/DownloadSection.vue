@@ -25,7 +25,7 @@
           </button>
           <div class="text-sm text-gray-500">
             大小: 15.2 MB<br>
-            更新: 2024-01-15
+            更新: 2025-01-15
           </div>
         </div>
         
@@ -44,7 +44,7 @@
           </button>
           <div class="text-sm text-gray-500">
             大小: 12.8 MB<br>
-            更新: 2024-01-15
+            更新: 2025-01-15
           </div>
         </div>
         

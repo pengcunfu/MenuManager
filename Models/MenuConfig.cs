@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using Newtonsoft.Json;
 
-namespace OpenAsMenu.Models
+namespace MenuManager.Models
 {
     /// <summary>
     /// 右键菜单配置项

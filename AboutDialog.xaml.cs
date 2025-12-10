@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Navigation;
 
-namespace OpenAsMenu
+namespace MenuManager
 {
     /// <summary>
     /// AboutDialog.xaml 的交互逻辑

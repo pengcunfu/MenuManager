@@ -20,16 +20,16 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: 恢复依赖项
-      run: dotnet restore OpenAsMenu/OpenAsMenu.csproj
+      run: dotnet restore MenuManager.csproj
 
     - name: 构建项目
-      run: dotnet build OpenAsMenu/OpenAsMenu.csproj --configuration Release --no-restore
+      run: dotnet build MenuManager.csproj --configuration Release --no-restore
 
     - name: 测试构建输出
       run: |
-        if (Test-Path "OpenAsMenu/bin/Release/net8.0-windows/OpenAsMenu.exe") {
-          Write-Host "✅ 构建成功 - 找到 OpenAsMenu.exe"
+        if (Test-Path "bin/Release/net8.0-windows/MenuManager.exe") {
+          Write-Host "✅ 构建成功 - 找到 MenuManager.exe"
         } else {
-          Write-Host "❌ 构建失败 - 未找到 OpenAsMenu.exe"
+          Write-Host "❌ 构建失败 - 未找到 MenuManager.exe"
           exit 1
         }

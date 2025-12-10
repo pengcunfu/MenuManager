@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Security.Principal;
 using Microsoft.Win32;
 
-namespace OpenAsMenu.Services
+namespace MenuManager.Services
 {
     /// <summary>
     /// Win11右键菜单管理器

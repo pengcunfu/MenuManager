@@ -5,7 +5,7 @@
       <div class="text-center mb-16">
         <h2 class="section-title">产品截图</h2>
         <p class="section-subtitle">
-          直观了解 OpenAsMenu 的界面设计和功能布局
+          直观了解 MenuManager 的界面设计和功能布局
         </p>
       </div>
       
@@ -20,7 +20,7 @@
                 <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
                 <div class="w-3 h-3 bg-green-400 rounded-full"></div>
               </div>
-              <span class="text-sm font-medium text-gray-700">OpenAsMenu - 右键菜单管理工具</span>
+              <span class="text-sm font-medium text-gray-700">MenuManager - 右键菜单管理工具</span>
             </div>
             <div class="text-xs text-gray-500">v1.0.0</div>
           </div>

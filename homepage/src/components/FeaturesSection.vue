@@ -5,7 +5,7 @@
       <div class="text-center mb-16">
         <h2 class="section-title">强大的功能特性</h2>
         <p class="section-subtitle">
-          OpenAsMenu 提供了全面的右键菜单管理功能，让您的工作更加高效便捷
+          MenuManager 提供了全面的右键菜单管理功能，让您的工作更加高效便捷
         </p>
       </div>
       

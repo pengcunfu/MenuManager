@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'OpenAsMenuWeb/**'
+      - 'homepage/**'
       - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
@@ -31,15 +31,15 @@ jobs:
       with:
         node-version: '20'
         cache: 'npm'
-        cache-dependency-path: OpenAsMenuWeb/package-lock.json
+        cache-dependency-path: homepage/package-lock.json
 
     - name: 安装依赖项
       run: npm ci
-      working-directory: ./OpenAsMenuWeb
+      working-directory: ./homepage
 
     - name: 构建网站
       run: npm run build
-      working-directory: ./OpenAsMenuWeb
+      working-directory: ./homepage
       env:
         NODE_ENV: production
 
@@ -49,7 +49,7 @@ jobs:
     - name: 上传构建产物
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./OpenAsMenuWeb/dist
+        path: ./homepage/dist
 
   deploy:
     environment:

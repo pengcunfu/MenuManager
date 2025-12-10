@@ -24,14 +24,14 @@ jobs:
         dotnet-version: '8.0.x'
 
     - name: 恢复依赖项
-      run: dotnet restore OpenAsMenu/OpenAsMenu.csproj
+      run: dotnet restore MenuManager.csproj
 
     - name: 构建项目
-      run: dotnet build OpenAsMenu/OpenAsMenu.csproj --configuration Release --no-restore
+      run: dotnet build MenuManager.csproj --configuration Release --no-restore
 
     - name: 发布自包含版本 (x64)
       run: |
-        dotnet publish OpenAsMenu/OpenAsMenu.csproj `
+        dotnet publish MenuManager.csproj `
           --configuration Release `
           --runtime win-x64 `
           --self-contained true `
@@ -42,7 +42,7 @@ jobs:
 
     - name: 发布框架依赖版本 (x64)
       run: |
-        dotnet publish OpenAsMenu/OpenAsMenu.csproj `
+        dotnet publish MenuManager.csproj `
           --configuration Release `
           --runtime win-x64 `
           --self-contained false `
@@ -50,16 +50,16 @@ jobs:
 
     - name: 复制配置文件到自包含版本
       run: |
-        Copy-Item "OpenAsMenu/menu_configs.json" -Destination "./publish/win-x64-self-contained/" -Force
+        Copy-Item "menu_configs.json" -Destination "./publish/win-x64-self-contained/" -Force
 
     - name: 复制配置文件到框架依赖版本
       run: |
-        Copy-Item "OpenAsMenu/menu_configs.json" -Destination "./publish/win-x64-framework-dependent/" -Force
+        Copy-Item "menu_configs.json" -Destination "./publish/win-x64-framework-dependent/" -Force
 
     - name: 创建 ZIP 压缩包
       run: |
-        Compress-Archive -Path "./publish/win-x64-self-contained/*" -DestinationPath "./OpenAsMenu-win-x64-self-contained.zip"
-        Compress-Archive -Path "./publish/win-x64-framework-dependent/*" -DestinationPath "./OpenAsMenu-win-x64-framework-dependent.zip"
+        Compress-Archive -Path "./publish/win-x64-self-contained/*" -DestinationPath "./MenuManager-win-x64-self-contained.zip"
+        Compress-Archive -Path "./publish/win-x64-framework-dependent/*" -DestinationPath "./MenuManager-win-x64-framework-dependent.zip"
 
     - name: 从标签获取版本号
       id: get_version
@@ -77,8 +77,8 @@ jobs:
       shell: pwsh
       run: |
         $version = "${{ steps.get_version.outputs.VERSION }}"
-        Rename-Item "./OpenAsMenu-win-x64-self-contained.zip" "OpenAsMenu-$version-win-x64-self-contained.zip"
-        Rename-Item "./OpenAsMenu-win-x64-framework-dependent.zip" "OpenAsMenu-$version-win-x64-framework-dependent.zip"
+        Rename-Item "./MenuManager-win-x64-self-contained.zip" "MenuManager-$version-win-x64-self-contained.zip"
+        Rename-Item "./MenuManager-win-x64-framework-dependent.zip" "MenuManager-$version-win-x64-framework-dependent.zip"
 
     - name: 生成发布说明
       shell: pwsh
@@ -105,8 +105,8 @@ jobs:
         name: Release ${{ steps.get_version.outputs.VERSION }}
         body_path: RELEASE_NOTES.md
         files: |
-          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
-          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
+          MenuManager-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
+          MenuManager-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
         draft: false
         prerelease: false
       env:
@@ -115,8 +115,8 @@ jobs:
     - name: 上传构建产物
       uses: actions/upload-artifact@v4
       with:
-        name: OpenAsMenu-构建产物
+        name: MenuManager-构建产物
         path: |
-          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
-          OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
+          MenuManager-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
+          MenuManager-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
         retention-days: 30

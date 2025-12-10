@@ -1,9 +1,9 @@
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
-using OpenAsMenu.Models;
+using MenuManager.Models;
 
-namespace OpenAsMenu.Services
+namespace MenuManager.Services
 {
     /// <summary>
     /// 配置管理器

@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Security.Principal;
 using Microsoft.Win32;
-using OpenAsMenu.Models;
+using MenuManager.Models;
 
-namespace OpenAsMenu.Services
+namespace MenuManager.Services
 {
     /// <summary>
     /// 注册表管理器

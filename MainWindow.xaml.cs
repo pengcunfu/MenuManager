@@ -3,10 +3,10 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Microsoft.Win32;
-using OpenAsMenu.Models;
-using OpenAsMenu.Services;
+using MenuManager.Models;
+using MenuManager.Services;
 
-namespace OpenAsMenu
+namespace MenuManager
 {
     /// <summary>
     /// 主窗口交互逻辑

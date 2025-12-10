@@ -10,7 +10,7 @@
       <div class="text-center">
         <!-- 主标题 -->
         <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
-          <span class="text-primary-600">OpenAsMenu</span>
+          <span class="text-primary-600">MenuManager</span>
           <br>
           <span class="text-3xl md:text-5xl">专业的右键菜单管理工具</span>
         </h1>
@@ -59,7 +59,7 @@
               <div class="w-3 h-3 bg-red-400 rounded-full"></div>
               <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
               <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-              <div class="flex-1 text-center text-sm text-gray-600">OpenAsMenu</div>
+              <div class="flex-1 text-center text-sm text-gray-600">MenuManager</div>
             </div>
             <div class="p-8 bg-gradient-to-br from-gray-50 to-white">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

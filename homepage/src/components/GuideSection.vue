@@ -122,7 +122,7 @@ export default {
       {
         id: 1,
         title: '下载并运行程序',
-        description: '从官网下载最新版本的 OpenAsMenu，以管理员身份运行程序。程序会自动检测权限并提示提升。',
+        description: '从官网下载最新版本的 MenuManager，以管理员身份运行程序。程序会自动检测权限并提示提升。',
         tips: '首次运行时，Windows可能会显示安全警告，这是正常现象，请选择"仍要运行"。'
       },
       {

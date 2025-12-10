@@ -10,13 +10,13 @@
                 <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
               </svg>
             </div>
-            <span class="text-xl font-bold text-white">OpenAsMenu</span>
+            <span class="text-xl font-bold text-white">MenuManager</span>
           </div>
           <p class="text-gray-400 mb-6 max-w-md">
             专业的Windows右键菜单管理工具，让您的工作更加高效便捷。免费开源，安全可靠。
           </p>
           <div class="flex space-x-4">
-            <a href="https://github.com/yourusername/OpenAsMenu" 
+            <a href="https://github.com/yourusername/MenuManager" 
                target="_blank"
                class="text-gray-400 hover:text-white transition-colors">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
@@ -60,7 +60,7 @@
       <div class="border-t border-gray-800 mt-8 pt-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
           <div class="text-gray-400 text-sm">
-            © 2024 OpenAsMenu. 保留所有权利。
+            © 2025 MenuManager. 保留所有权利。
           </div>
           <div class="flex items-center space-x-6 mt-4 md:mt-0">
             <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">隐私政策</a>
