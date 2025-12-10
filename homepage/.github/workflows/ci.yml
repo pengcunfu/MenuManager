@@ -1,0 +1,35 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Restore dependencies
+      run: dotnet restore OpenAsMenu/OpenAsMenu.csproj
+      
+    - name: Build
+      run: dotnet build OpenAsMenu/OpenAsMenu.csproj --configuration Release --no-restore
+      
+    - name: Test build output
+      run: |
+        if (Test-Path "OpenAsMenu/bin/Release/net8.0-windows/OpenAsMenu.exe") {
+          Write-Host "✅ Build successful - OpenAsMenu.exe found"
+        } else {
+          Write-Host "❌ Build failed - OpenAsMenu.exe not found"
+          exit 1
+        }
