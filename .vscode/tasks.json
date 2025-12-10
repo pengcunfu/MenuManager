@@ -1,0 +1,84 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "运行 MenuManager",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--project",
+                "MenuManager.csproj"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": "$msCompile",
+            "detail": "启动 MenuManager WPF 桌面应用程序",
+            "icon": {
+                "id": "window",
+                "color": "terminal.ansiBlue"
+            }
+        },
+        {
+            "label": "运行 Homepage",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "dev"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/homepage"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "owner": "npm",
+                    "fileLocation": "relative",
+                    "pattern": [
+                        {
+                            "regexp": "^(.*)",
+                            "severity": 1,
+                            "message": 1
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": "Local:",
+                        "endsPattern": "ready in"
+                    }
+                }
+            ],
+            "detail": "启动 Vue3 开发服务器 (localhost:3000)",
+            "icon": {
+                "id": "server-process",
+                "color": "terminal.ansiGreen"
+            }
+        }
+        
+    ]
+}
