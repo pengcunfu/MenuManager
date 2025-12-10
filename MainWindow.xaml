@@ -51,15 +51,19 @@
         <!-- 左侧面板 - 配置列表 -->
         <GroupBox Grid.Column="0" Header="配置列表">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <!-- 配置列表 -->
                 <ListBox x:Name="ConfigListBox"
+                         Grid.Row="0"
                          SelectionChanged="ConfigListBox_SelectionChanged"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.CanContentScroll="False"
                          VirtualizingPanel.IsVirtualizing="False"
-                         MaxHeight="500"
-                         VerticalAlignment="Stretch">
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="8">
