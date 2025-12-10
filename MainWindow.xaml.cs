@@ -41,7 +41,7 @@ namespace OpenAsMenu
             try
             {
                 // 检查管理员权限
-                await CheckAdminPermissionsAsync();
+                CheckAdminPermissions();
                 
                 // 加载配置
                 await LoadConfigsAsync();
@@ -55,7 +55,7 @@ namespace OpenAsMenu
         /// <summary>
         /// 检查管理员权限
         /// </summary>
-        private async Task CheckAdminPermissionsAsync()
+        private void CheckAdminPermissions()
         {
             if (!_registryManager.IsAdmin())
             {
