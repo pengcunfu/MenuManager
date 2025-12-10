@@ -8,178 +8,36 @@
         Title="右键菜单配置工具" Height="700" Width="900"
         MinHeight="600" MinWidth="700"
         WindowStartupLocation="CenterScreen">
-    
-    <Window.Resources>
-        <!-- 现代化样式资源 -->
-        <Style x:Key="ModernButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="#F8F9FA"/>
-            <Setter Property="BorderBrush" Value="#DEE2E6"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="12,8"/>
-            <Setter Property="Margin" Value="4"/>
-            <Setter Property="FontWeight" Value="Medium"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="6">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#E9ECEF"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#DEE2E6"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#2196F3"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#2196F3"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#1976D2"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#1565C0"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="DangerButtonStyle" TargetType="Button" BasedOn="{StaticResource ModernButtonStyle}">
-            <Setter Property="Background" Value="#F44336"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#F44336"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#D32F2F"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#B71C1C"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="ModernTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Padding" Value="8"/>
-            <Setter Property="BorderBrush" Value="#DEE2E6"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="White"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-                            <ScrollViewer x:Name="PART_ContentHost"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter Property="BorderBrush" Value="#2196F3"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="ModernListBoxStyle" TargetType="ListBox">
-            <Setter Property="BorderBrush" Value="#DEE2E6"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="White"/>
-        </Style>
-
-        <Style x:Key="ModernGroupBoxStyle" TargetType="GroupBox">
-            <Setter Property="BorderBrush" Value="#DEE2E6"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="5"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="GroupBox">
-                        <Grid>
-                            <Border Background="White" BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6"/>
-                            <StackPanel>
-                                <Border Background="#F8F9FA" CornerRadius="6,6,0,0" Padding="12,8">
-                                    <ContentPresenter ContentSource="Header" TextElement.FontWeight="SemiBold"/>
-                                </Border>
-                                <ContentPresenter Margin="{TemplateBinding Padding}"/>
-                            </StackPanel>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
 
     <DockPanel>
         <!-- 菜单栏 -->
-        <Menu DockPanel.Dock="Top" Background="#F8F9FA" BorderBrush="#DEE2E6" BorderThickness="0,0,0,1">
+        <Menu DockPanel.Dock="Top">
             <MenuItem Header="工具(_T)">
                 <MenuItem x:Name="AddConfigMenuItem" Header="添加配置(_A)"
                           ToolTip="添加新的右键菜单配置"
-                          Click="AddConfigButton_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="➕" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="AddConfigButton_Click"/>
                 <MenuItem x:Name="RemoveConfigMenuItem" Header="删除配置(_D)"
                           ToolTip="删除选中的配置"
-                          Click="RemoveConfigButton_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="🗑️" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="RemoveConfigButton_Click"/>
                 <MenuItem x:Name="RefreshStatusMenuItem" Header="刷新状态(_R)"
                           ToolTip="刷新所有配置的状态"
-                          Click="RefreshStatusButton_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="🔄" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="RefreshStatusButton_Click"/>
                 <Separator/>
                 <MenuItem x:Name="DisableWin11MenuMenuItem" Header="禁用Win11一级菜单(_W)"
                           ToolTip="切换到Win10样式的右键菜单（显示完整二级菜单）"
-                          Click="DisableWin11MenuMenuItem_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="📋" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="DisableWin11MenuMenuItem_Click"/>
                 <MenuItem x:Name="EnableWin11MenuMenuItem" Header="恢复Win11默认菜单(_E)"
                           ToolTip="恢复Win11默认的右键菜单样式"
-                          Click="EnableWin11MenuMenuItem_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="🔄" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="EnableWin11MenuMenuItem_Click"/>
                 <Separator/>
                 <MenuItem x:Name="CheckWin11StatusMenuItem" Header="检查菜单状态(_S)"
                           ToolTip="检查当前Win11右键菜单的状态"
-                          Click="CheckWin11StatusMenuItem_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="🔍" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="CheckWin11StatusMenuItem_Click"/>
             </MenuItem>
             <MenuItem Header="帮助(_H)">
                 <MenuItem x:Name="AboutWin11MenuMenuItem" Header="关于(_A)"
                           ToolTip="关于右键菜单配置工具"
-                          Click="AboutWin11MenuMenuItem_Click">
-                    <MenuItem.Icon>
-                        <TextBlock Text="ℹ️" FontSize="14"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                          Click="AboutWin11MenuMenuItem_Click"/>
             </MenuItem>
         </Menu>
 
@@ -191,11 +49,10 @@
         </Grid.ColumnDefinitions>
 
         <!-- 左侧面板 - 配置列表 -->
-        <GroupBox Grid.Column="0" Header="配置列表" Style="{StaticResource ModernGroupBoxStyle}">
+        <GroupBox Grid.Column="0" Header="配置列表">
             <Grid>
                 <!-- 配置列表 -->
                 <ListBox x:Name="ConfigListBox"
-                         Style="{StaticResource ModernListBoxStyle}"
                          SelectionChanged="ConfigListBox_SelectionChanged"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -256,7 +113,7 @@
         </GroupBox>
 
         <!-- 右侧面板 - 配置详情 -->
-        <GroupBox x:Name="ConfigDetailsGroupBox" Grid.Column="1" Header="配置详情" Style="{StaticResource ModernGroupBoxStyle}" Margin="10,0,0,0">
+        <GroupBox x:Name="ConfigDetailsGroupBox" Grid.Column="1" Header="配置详情" Margin="10,0,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -268,14 +125,12 @@
                     <StackPanel Margin="10">
                         <!-- 显示名称 -->
                         <Label Content="显示名称：" FontWeight="Medium" Margin="0,5,0,2"/>
-                        <TextBox x:Name="NameTextBox" 
-                                 Style="{StaticResource ModernTextBoxStyle}"
+                        <TextBox x:Name="NameTextBox"
                                  ToolTip="右键菜单中显示的名称"/>
 
                         <!-- 注册表键名 -->
                         <Label Content="注册表键名：" FontWeight="Medium" Margin="0,15,0,2"/>
-                        <TextBox x:Name="RootTextBox" 
-                                 Style="{StaticResource ModernTextBoxStyle}"
+                        <TextBox x:Name="RootTextBox"
                                  ToolTip="在注册表中使用的唯一标识符"/>
 
                         <!-- 程序路径 -->
@@ -285,14 +140,12 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="PathTextBox" 
+                            <TextBox x:Name="PathTextBox"
                                      Grid.Column="0"
-                                     Style="{StaticResource ModernTextBoxStyle}"
                                      ToolTip="要启动的程序的完整路径"/>
-                            <Button x:Name="BrowseButton" 
+                            <Button x:Name="BrowseButton"
                                     Grid.Column="1"
-                                    Content="📁 浏览"
-                                    Style="{StaticResource ModernButtonStyle}"
+                                    Content="浏览..."
                                     Click="BrowseButton_Click"
                                     Margin="5,0,0,0"/>
                         </Grid>
@@ -314,23 +167,22 @@
                 </ScrollViewer>
 
                 <!-- 操作按钮 -->
-                <StackPanel Grid.Row="1" 
-                           Orientation="Horizontal" 
-                           HorizontalAlignment="Right" 
+                <StackPanel Grid.Row="1"
+                           Orientation="Horizontal"
+                           HorizontalAlignment="Right"
                            Margin="10">
-                    <Button x:Name="SaveButton" 
-                            Content="💾 保存配置" 
-                            Style="{StaticResource ModernButtonStyle}"
+                    <Button x:Name="SaveButton"
+                            Content="保存配置"
                             Click="SaveButton_Click"
-                            ToolTip="仅保存配置信息，不更新右键菜单"/>
-                    <Button x:Name="ApplyButton" 
-                            Content="✅ 应用更改" 
-                            Style="{StaticResource PrimaryButtonStyle}"
+                            ToolTip="仅保存配置信息，不更新右键菜单"
+                            Margin="0,0,8,0"/>
+                    <Button x:Name="ApplyButton"
+                            Content="应用更改"
                             Click="ApplyButton_Click"
-                            ToolTip="保存配置并更新右键菜单"/>
-                    <Button x:Name="TestPathButton" 
-                            Content="🔍 测试路径" 
-                            Style="{StaticResource ModernButtonStyle}"
+                            ToolTip="保存配置并更新右键菜单"
+                            Margin="0,0,8,0"/>
+                    <Button x:Name="TestPathButton"
+                            Content="测试路径"
                             Click="TestPathButton_Click"/>
                 </StackPanel>
             </Grid>
