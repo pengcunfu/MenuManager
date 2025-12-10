@@ -57,7 +57,7 @@
                 <TextBlock Text="• 基于 .NET 8.0 和 WPF 框架开发"
                            FontSize="12"
                            Margin="15,0,0,5"/>
-                <TextBlock Text="• 支持 Windows 7 及以上版本"
+                <TextBlock Text="• 支持 Windows 10 及以上版本"
                            FontSize="12"
                            Margin="15,0,0,5"/>
                 <TextBlock Text="• 需要管理员权限运行"

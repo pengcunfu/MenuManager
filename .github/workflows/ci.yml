@@ -1,4 +1,4 @@
-name: CI Build
+name: 持续集成构建
 
 on:
   push:
@@ -9,27 +9,27 @@ on:
 jobs:
   build:
     runs-on: windows-latest
-    
+
     steps:
-    - name: Checkout code
+    - name: 检出代码
       uses: actions/checkout@v4
-      
-    - name: Setup .NET
+
+    - name: 配置 .NET 环境
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-        
-    - name: Restore dependencies
+
+    - name: 恢复依赖项
       run: dotnet restore OpenAsMenu/OpenAsMenu.csproj
-      
-    - name: Build
+
+    - name: 构建项目
       run: dotnet build OpenAsMenu/OpenAsMenu.csproj --configuration Release --no-restore
-      
-    - name: Test build output
+
+    - name: 测试构建输出
       run: |
         if (Test-Path "OpenAsMenu/bin/Release/net8.0-windows/OpenAsMenu.exe") {
-          Write-Host "✅ Build successful - OpenAsMenu.exe found"
+          Write-Host "✅ 构建成功 - 找到 OpenAsMenu.exe"
         } else {
-          Write-Host "❌ Build failed - OpenAsMenu.exe not found"
+          Write-Host "❌ 构建失败 - 未找到 OpenAsMenu.exe"
           exit 1
         }

@@ -1,4 +1,4 @@
-name: Build and Release
+name: 构建和发布
 
 on:
   push:
@@ -13,23 +13,23 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    
+
     steps:
-    - name: Checkout code
+    - name: 检出代码
       uses: actions/checkout@v4
-      
-    - name: Setup .NET
+
+    - name: 配置 .NET 环境
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: '8.0.x'
-        
-    - name: Restore dependencies
+
+    - name: 恢复依赖项
       run: dotnet restore OpenAsMenu/OpenAsMenu.csproj
-      
-    - name: Build
+
+    - name: 构建项目
       run: dotnet build OpenAsMenu/OpenAsMenu.csproj --configuration Release --no-restore
-      
-    - name: Publish Self-Contained (x64)
+
+    - name: 发布自包含版本 (x64)
       run: |
         dotnet publish OpenAsMenu/OpenAsMenu.csproj `
           --configuration Release `
@@ -39,29 +39,29 @@ jobs:
           -p:PublishSingleFile=true `
           -p:IncludeNativeLibrariesForSelfExtract=true `
           -p:EnableCompressionInSingleFile=true
-          
-    - name: Publish Framework-Dependent (x64)
+
+    - name: 发布框架依赖版本 (x64)
       run: |
         dotnet publish OpenAsMenu/OpenAsMenu.csproj `
           --configuration Release `
           --runtime win-x64 `
           --self-contained false `
           --output ./publish/win-x64-framework-dependent
-          
-    - name: Copy config file to self-contained
+
+    - name: 复制配置文件到自包含版本
       run: |
         Copy-Item "OpenAsMenu/menu_configs.json" -Destination "./publish/win-x64-self-contained/" -Force
-        
-    - name: Copy config file to framework-dependent
+
+    - name: 复制配置文件到框架依赖版本
       run: |
         Copy-Item "OpenAsMenu/menu_configs.json" -Destination "./publish/win-x64-framework-dependent/" -Force
-        
-    - name: Create ZIP archives
+
+    - name: 创建 ZIP 压缩包
       run: |
         Compress-Archive -Path "./publish/win-x64-self-contained/*" -DestinationPath "./OpenAsMenu-win-x64-self-contained.zip"
         Compress-Archive -Path "./publish/win-x64-framework-dependent/*" -DestinationPath "./OpenAsMenu-win-x64-framework-dependent.zip"
-        
-    - name: Get version from tag
+
+    - name: 从标签获取版本号
       id: get_version
       shell: pwsh
       run: |
@@ -72,42 +72,38 @@ jobs:
         }
         echo "VERSION=$version" >> $env:GITHUB_OUTPUT
         echo "Version: $version"
-        
-    - name: Rename ZIP files with version
+
+    - name: 使用版本号重命名 ZIP 文件
       shell: pwsh
       run: |
         $version = "${{ steps.get_version.outputs.VERSION }}"
         Rename-Item "./OpenAsMenu-win-x64-self-contained.zip" "OpenAsMenu-$version-win-x64-self-contained.zip"
         Rename-Item "./OpenAsMenu-win-x64-framework-dependent.zip" "OpenAsMenu-$version-win-x64-framework-dependent.zip"
-        
-    - name: Create Release and Upload Assets
+
+    - name: 生成发布说明
+      shell: pwsh
+      run: |
+        $version = "${{ steps.get_version.outputs.VERSION }}"
+        $repository = "${{ github.repository }}"
+        $templatePath = ".github/RELEASE_TEMPLATE.md"
+        $releaseNotesPath = "RELEASE_NOTES.md"
+
+        # 读取模板文件
+        $template = Get-Content $templatePath -Raw
+
+        # 替换占位符
+        $releaseNotes = $template -replace '\{\{VERSION\}\}', $version -replace '\{\{REPOSITORY\}\}', $repository
+
+        # 保存生成的发布说明
+        $releaseNotes | Out-File -FilePath $releaseNotesPath -Encoding UTF8
+
+        Write-Host "发布说明已生成: $releaseNotesPath"
+
+    - name: 创建发布并上传资源
       uses: softprops/action-gh-release@v1
       with:
         name: Release ${{ steps.get_version.outputs.VERSION }}
-        body: |
-          ## OpenAsMenu ${{ steps.get_version.outputs.VERSION }}
-          
-          ### 功能特点
-          - ✅ 自定义 Windows 右键菜单
-          - ✅ 支持文件和目录菜单配置
-          - ✅ Win11 菜单样式切换
-          - ✅ 现代化 WPF 界面
-          
-          ### 下载说明
-          - **Self-Contained**: 独立版本，包含 .NET 运行时，无需安装 .NET
-          - **Framework-Dependent**: 依赖版本，需要安装 .NET 8.0 运行时
-          
-          ### 使用要求
-          - Windows 7 或更高版本
-          - 需要管理员权限运行
-          
-          ### 安装说明
-          1. 下载对应版本的 ZIP 文件
-          2. 解压到任意目录
-          3. 右键以管理员身份运行 `OpenAsMenu.exe`
-          
-          ---
-          **完整更新日志**: [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+        body_path: RELEASE_NOTES.md
         files: |
           OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
           OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
@@ -115,11 +111,11 @@ jobs:
         prerelease: false
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Upload artifacts
+
+    - name: 上传构建产物
       uses: actions/upload-artifact@v4
       with:
-        name: OpenAsMenu-Builds
+        name: OpenAsMenu-构建产物
         path: |
           OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-self-contained.zip
           OpenAsMenu-${{ steps.get_version.outputs.VERSION }}-win-x64-framework-dependent.zip
