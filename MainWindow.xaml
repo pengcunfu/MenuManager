@@ -151,8 +151,8 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="帮助(_H)">
-                <MenuItem x:Name="AboutWin11MenuMenuItem" Header="关于Win11菜单切换(_A)" 
-                          ToolTip="了解Win11右键菜单切换功能"
+                <MenuItem x:Name="AboutWin11MenuMenuItem" Header="关于(_A)"
+                          ToolTip="关于右键菜单配置工具"
                           Click="AboutWin11MenuMenuItem_Click">
                     <MenuItem.Icon>
                         <TextBlock Text="ℹ️" FontSize="14"/>
