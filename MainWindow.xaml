@@ -127,14 +127,36 @@
         <!-- 菜单栏 -->
         <Menu DockPanel.Dock="Top" Background="#F8F9FA" BorderBrush="#DEE2E6" BorderThickness="0,0,0,1">
             <MenuItem Header="工具(_T)">
-                <MenuItem x:Name="DisableWin11MenuMenuItem" Header="禁用Win11一级菜单(_D)" 
+                <MenuItem x:Name="AddConfigMenuItem" Header="添加配置(_A)"
+                          ToolTip="添加新的右键菜单配置"
+                          Click="AddConfigButton_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="➕" FontSize="14"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="RemoveConfigMenuItem" Header="删除配置(_D)"
+                          ToolTip="删除选中的配置"
+                          Click="RemoveConfigButton_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🗑️" FontSize="14"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem x:Name="RefreshStatusMenuItem" Header="刷新状态(_R)"
+                          ToolTip="刷新所有配置的状态"
+                          Click="RefreshStatusButton_Click">
+                    <MenuItem.Icon>
+                        <TextBlock Text="🔄" FontSize="14"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator/>
+                <MenuItem x:Name="DisableWin11MenuMenuItem" Header="禁用Win11一级菜单(_W)"
                           ToolTip="切换到Win10样式的右键菜单（显示完整二级菜单）"
                           Click="DisableWin11MenuMenuItem_Click">
                     <MenuItem.Icon>
                         <TextBlock Text="📋" FontSize="14"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem x:Name="EnableWin11MenuMenuItem" Header="恢复Win11默认菜单(_E)" 
+                <MenuItem x:Name="EnableWin11MenuMenuItem" Header="恢复Win11默认菜单(_E)"
                           ToolTip="恢复Win11默认的右键菜单样式"
                           Click="EnableWin11MenuMenuItem_Click">
                     <MenuItem.Icon>
@@ -142,7 +164,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator/>
-                <MenuItem x:Name="CheckWin11StatusMenuItem" Header="检查菜单状态(_S)" 
+                <MenuItem x:Name="CheckWin11StatusMenuItem" Header="检查菜单状态(_S)"
                           ToolTip="检查当前Win11右键菜单的状态"
                           Click="CheckWin11StatusMenuItem_Click">
                     <MenuItem.Icon>
@@ -171,14 +193,8 @@
         <!-- 左侧面板 - 配置列表 -->
         <GroupBox Grid.Column="0" Header="配置列表" Style="{StaticResource ModernGroupBoxStyle}">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
                 <!-- 配置列表 -->
-                <ListBox x:Name="ConfigListBox" 
-                         Grid.Row="0"
+                <ListBox x:Name="ConfigListBox"
                          Style="{StaticResource ModernListBoxStyle}"
                          SelectionChanged="ConfigListBox_SelectionChanged"
                          ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -236,22 +252,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-
-                <!-- 按钮区域 -->
-                <StackPanel Grid.Row="1" Margin="0,10,0,0">
-                    <Button x:Name="AddConfigButton" 
-                            Content="➕ 添加配置" 
-                            Style="{StaticResource ModernButtonStyle}"
-                            Click="AddConfigButton_Click"/>
-                    <Button x:Name="RemoveConfigButton" 
-                            Content="🗑️ 删除配置" 
-                            Style="{StaticResource DangerButtonStyle}"
-                            Click="RemoveConfigButton_Click"/>
-                    <Button x:Name="RefreshStatusButton" 
-                            Content="🔄 刷新状态" 
-                            Style="{StaticResource ModernButtonStyle}"
-                            Click="RefreshStatusButton_Click"/>
-                </StackPanel>
             </Grid>
         </GroupBox>
 

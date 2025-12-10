@@ -182,8 +182,8 @@ namespace OpenAsMenu
         {
             bool hasSelection = _selectedConfig != null || _isAddingNew;
             
-            // 删除按钮需要有选中项且不在添加模式
-            RemoveConfigButton.IsEnabled = _selectedConfig != null && !_isAddingNew;
+            // 删除菜单项需要有选中项且不在添加模式
+            RemoveConfigMenuItem.IsEnabled = _selectedConfig != null && !_isAddingNew;
             
             // 保存、应用更改、测试路径按钮需要有选中项或在添加模式
             SaveButton.IsEnabled = hasSelection;
