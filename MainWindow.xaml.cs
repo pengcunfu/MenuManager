@@ -831,25 +831,11 @@ namespace OpenAsMenu
         /// </summary>
         private void AboutWin11MenuMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            var aboutMessage = "=== 右键菜单配置工具 ===\n\n" +
-                "这是一个Windows右键菜单自定义配置工具，让您能够轻松管理文件和文件夹的右键菜单选项。\n\n" +
-                "🌟 主要功能：\n" +
-                "• 自定义添加文件和文件夹的右键菜单项\n" +
-                "• 支持配置外部程序快速启动\n" +
-                "• Win11菜单样式切换（Win10/Win11样式）\n" +
-                "• 直观的可视化配置界面\n" +
-                "• 配置文件的导入导出功能\n\n" +
-                "👨‍💻 作者：pengcunfu\n\n" +
-                "🔗 项目仓库：\n" +
-                "https://github.com/pengcunfu/QRcodeGenerate.git\n\n" +
-                "📋 版本信息：\n" +
-                $"• 当前版本：v{System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "0.0.1"}\n" +
-                "• 基于 .NET 8.0 和 WPF 框架开发\n" +
-                "• 支持 Windows 7 及以上版本\n" +
-                "• 需要管理员权限运行\n\n" +
-                "感谢您的使用和支持！";
-
-            MessageBox.Show(aboutMessage, "关于", MessageBoxButton.OK, MessageBoxImage.Information);
+            var aboutDialog = new AboutDialog
+            {
+                Owner = this
+            };
+            aboutDialog.ShowDialog();
         }
 
         #endregion
