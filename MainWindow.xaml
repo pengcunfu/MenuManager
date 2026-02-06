@@ -132,12 +132,22 @@
                         <!-- 显示名称 -->
                         <Label Content="显示名称：" FontWeight="Medium" Margin="0,5,0,2"/>
                         <TextBox x:Name="NameTextBox"
-                                 ToolTip="右键菜单中显示的名称"/>
+                                 Height="30"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="右键菜单中显示的名称"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"/>
 
                         <!-- 注册表键名 -->
                         <Label Content="注册表键名：" FontWeight="Medium" Margin="0,15,0,2"/>
                         <TextBox x:Name="RootTextBox"
-                                 ToolTip="在注册表中使用的唯一标识符"/>
+                                 Height="30"
+                                 Padding="10,0"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="在注册表中使用的唯一标识符"
+                                 TextWrapping="NoWrap"
+                                 AcceptsReturn="False"/>
 
                         <!-- 程序路径 -->
                         <Label Content="程序路径：" FontWeight="Medium" Margin="0,15,0,2"/>
@@ -148,10 +158,17 @@
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="PathTextBox"
                                      Grid.Column="0"
-                                     ToolTip="要启动的程序的完整路径"/>
+                                     Height="30"
+                                     Padding="10,0"
+                                     VerticalContentAlignment="Center"
+                                     ToolTip="要启动的程序的完整路径"
+                                     TextWrapping="NoWrap"
+                                     AcceptsReturn="False"/>
                             <Button x:Name="BrowseButton"
                                     Grid.Column="1"
                                     Content="浏览..."
+                                    Height="30"
+                                    Padding="10,0"
                                     Click="BrowseButton_Click"
                                     Margin="5,0,0,0"/>
                         </Grid>
@@ -179,16 +196,22 @@
                            Margin="10">
                     <Button x:Name="SaveButton"
                             Content="保存配置"
+                            Height="30"
+                            Padding="10,0"
                             Click="SaveButton_Click"
                             ToolTip="仅保存配置信息，不更新右键菜单"
-                            Margin="0,0,8,0"/>
+                            Margin="0,0,5,0"/>
                     <Button x:Name="ApplyButton"
                             Content="应用更改"
+                            Height="30"
+                            Padding="10,0"
                             Click="ApplyButton_Click"
                             ToolTip="保存配置并更新右键菜单"
-                            Margin="0,0,8,0"/>
+                            Margin="0,0,5,0"/>
                     <Button x:Name="TestPathButton"
                             Content="测试路径"
+                            Height="30"
+                            Padding="10,0"
                             Click="TestPathButton_Click"/>
                 </StackPanel>
             </Grid>
