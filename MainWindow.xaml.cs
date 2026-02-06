@@ -224,8 +224,6 @@ namespace MenuManager
                 // 聚焦到名称输入框
                 NameTextBox.Focus();
                 NameTextBox.SelectAll();
-                
-                ShowInfo("请填写配置信息，然后点击\"保存配置\"或\"应用更改\"");
             }
             catch (Exception ex)
             {
