@@ -1,74 +1,84 @@
 {
   "configs": [
     {
-      "name": "VSCode",
+      "name": "通过 Code 打开",
       "root": "vscode",
-      "path": "C:\\Program Files\\Microsoft VS Code\\Code.exe",
-      "for_files": false,
-      "enabled": false
+      "path": "D:\\App\\Software\\Microsoft VS Code\\Code.exe",
+      "for_files": true,
+      "for_directories": true,
+      "for_desktop": false
     },
     {
-      "name": "PyCharm",
+      "name": "通过 PyCharm 打开",
       "root": "pycharm",
-      "path": "D:\\App\\IDE\\JetBrains\\PyCharm 2023.3.1\\bin\\pycharm64.exe",
+      "path": "D:\\App\\Code\\JetBrains\\PyCharm 2023.3.1\\bin\\pycharm64.exe",
       "for_files": false,
-      "enabled": false
+      "for_directories": false,
+      "for_desktop": false
     },
     {
-      "name": "IDEA",
+      "name": "通过 IDEA 打开",
       "root": "idea64",
-      "path": "D:\\App\\Dev\\JetBrains\\IntelliJ IDEA 2023.3.1\\bin\\idea64.exe",
+      "path": "D:\\App\\Code\\JetBrains\\IntelliJ IDEA 2023.3.1\\bin\\idea64.exe",
       "for_files": false,
-      "enabled": false
+      "for_directories": true,
+      "for_desktop": false
     },
     {
       "name": "PhpStorm",
       "root": "phpstorm",
       "path": "D:\\Peng\\App\\Software\\JetBrains\\PhpStorm 2023.3.1\\bin\\phpstorm64.exe",
       "for_files": false,
-      "enabled": false
+      "for_directories": false,
+      "for_desktop": false
     },
     {
       "name": "GoLand",
       "root": "goland",
       "path": "D:\\App\\IDE\\JetBrains\\GoLand 2023.3.1\\bin\\goland64.exe",
       "for_files": false,
-      "enabled": false
+      "for_directories": false,
+      "for_desktop": false
     },
     {
       "name": "Cursor",
       "root": "cursor",
       "path": "D:\\App\\IDE\\Cursor\\Cursor.exe",
       "for_files": false,
-      "enabled": false
+      "for_directories": false,
+      "for_desktop": false
     },
     {
       "name": "Trae",
       "root": "trae",
       "path": "D:\\App\\IDE\\Trae\\Trae.exe",
       "for_files": false,
-      "enabled": false
+      "for_directories": false,
+      "for_desktop": false
     },
     {
       "name": "Notepad++",
       "root": "notepadpp",
       "path": "C:\\Program Files\\Notepad++\\notepad++.exe",
-      "for_files": true,
-      "enabled": false
+      "for_files": false,
+      "for_directories": false,
+      "for_desktop": false
     },
     {
       "name": "Sublime Text",
       "root": "sublimetext",
       "path": "C:\\Program Files\\Sublime Text\\sublime_text.exe",
-      "for_files": true,
-      "enabled": false
+      "for_files": false,
+      "for_directories": false,
+      "for_desktop": false
     },
     {
       "name": "记事本",
       "root": "notepad",
       "path": "C:\\Windows\\System32\\notepad.exe",
-      "for_files": true,
-      "enabled": false
+      "for_files": false,
+      "for_directories": false,
+      "for_desktop": false
     }
   ]
 }
