@@ -399,7 +399,6 @@ namespace MenuManager
             try
             {
                 await LoadConfigsAsync();
-                ShowInfo("状态已刷新");
             }
             catch (Exception ex)
             {
