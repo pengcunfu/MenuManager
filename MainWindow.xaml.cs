@@ -155,6 +155,7 @@ namespace MenuManager
             PathTextBox.Text = config.Path;
             ForFilesCheckBox.IsChecked = config.ForFiles;
             ForDirectoriesCheckBox.IsChecked = config.ForDirectories;
+            ForDesktopCheckBox.IsChecked = config.ForDesktop;
 
             // 更新标题
             ConfigDetailsGroupBox.Header = $"配置详情 - {config.Name}";
@@ -177,6 +178,7 @@ namespace MenuManager
             PathTextBox.Text = string.Empty;
             ForFilesCheckBox.IsChecked = false;
             ForDirectoriesCheckBox.IsChecked = false;
+            ForDesktopCheckBox.IsChecked = false;
 
             // 更新标题
             ConfigDetailsGroupBox.Header = _isAddingNew ? "配置详情 - 新增配置" : "配置详情";
@@ -225,6 +227,7 @@ namespace MenuManager
                 PathTextBox.Text = "";
                 ForFilesCheckBox.IsChecked = false;
                 ForDirectoriesCheckBox.IsChecked = false;
+                ForDesktopCheckBox.IsChecked = false;
                 _isUpdatingUI = false;
                 
                 // 更新标题
@@ -261,7 +264,8 @@ namespace MenuManager
                     Root = root,
                     Path = path,
                     ForFiles = ForFilesCheckBox.IsChecked ?? false,
-                    ForDirectories = ForDirectoriesCheckBox.IsChecked ?? false
+                    ForDirectories = ForDirectoriesCheckBox.IsChecked ?? false,
+                    ForDesktop = ForDesktopCheckBox.IsChecked ?? false
                 };
 
                 // 验证配置
@@ -437,7 +441,8 @@ namespace MenuManager
                     Root = root,
                     Path = path,
                     ForFiles = ForFilesCheckBox.IsChecked ?? false,
-                    ForDirectories = ForDirectoriesCheckBox.IsChecked ?? false
+                    ForDirectories = ForDirectoriesCheckBox.IsChecked ?? false,
+                    ForDesktop = ForDesktopCheckBox.IsChecked ?? false
                 };
 
                 // 验证配置
@@ -565,11 +570,13 @@ namespace MenuManager
             {
                 var forFiles = ForFilesCheckBox.IsChecked ?? false;
                 var forDirectories = ForDirectoriesCheckBox.IsChecked ?? false;
-                var enabled = forFiles || forDirectories;
+                var forDesktop = ForDesktopCheckBox.IsChecked ?? false;
+                var enabled = forFiles || forDirectories || forDesktop;
 
                 // 保存原始状态
                 var originalForFiles = _selectedConfig.ForFiles;
                 var originalForDirectories = _selectedConfig.ForDirectories;
+                var originalForDesktop = _selectedConfig.ForDesktop;
 
                 // 如果要启用（至少选中一个范围），先验证配置
                 if (enabled)
@@ -580,7 +587,8 @@ namespace MenuManager
                         Root = RootTextBox.Text.Trim(),
                         Path = PathTextBox.Text.Trim(),
                         ForFiles = forFiles,
-                        ForDirectories = forDirectories
+                        ForDirectories = forDirectories,
+                        ForDesktop = forDesktop
                     };
 
                     try
@@ -593,6 +601,7 @@ namespace MenuManager
                         _isUpdatingUI = true;
                         ForFilesCheckBox.IsChecked = originalForFiles;
                         ForDirectoriesCheckBox.IsChecked = originalForDirectories;
+                        ForDesktopCheckBox.IsChecked = originalForDesktop;
                         _isUpdatingUI = false;
                         return;
                     }
@@ -610,6 +619,7 @@ namespace MenuManager
                             _isUpdatingUI = true;
                             ForFilesCheckBox.IsChecked = originalForFiles;
                             ForDirectoriesCheckBox.IsChecked = originalForDirectories;
+                            ForDesktopCheckBox.IsChecked = originalForDesktop;
                             _isUpdatingUI = false;
                             return;
                         }
@@ -625,10 +635,12 @@ namespace MenuManager
                 // 检查每个范围的变化
                 var addedForFiles = forFiles && !originalForFiles;
                 var addedForDirectories = forDirectories && !originalForDirectories;
+                var addedForDesktop = forDesktop && !originalForDesktop;
                 var removedForFiles = !forFiles && originalForFiles;
                 var removedForDirectories = !forDirectories && originalForDirectories;
+                var removedForDesktop = !forDesktop && originalForDesktop;
 
-                if (addedForFiles || addedForDirectories)
+                if (addedForFiles || addedForDirectories || addedForDesktop)
                 {
                     // 添加新选中的范围
                     var tempConfig = new MenuConfig
@@ -637,12 +649,13 @@ namespace MenuManager
                         Root = _selectedConfig.Root,
                         Path = _selectedConfig.Path,
                         ForFiles = addedForFiles,
-                        ForDirectories = addedForDirectories
+                        ForDirectories = addedForDirectories,
+                        ForDesktop = addedForDesktop
                     };
                     _registryManager.AddMenu(tempConfig);
                 }
 
-                if (removedForFiles || removedForDirectories)
+                if (removedForFiles || removedForDirectories || removedForDesktop)
                 {
                     // 删除取消选中的范围（使用原始状态）
                     var tempConfig = new MenuConfig
@@ -651,7 +664,8 @@ namespace MenuManager
                         Root = _selectedConfig.Root,
                         Path = _selectedConfig.Path,
                         ForFiles = removedForFiles ? originalForFiles : false,
-                        ForDirectories = removedForDirectories ? originalForDirectories : false
+                        ForDirectories = removedForDirectories ? originalForDirectories : false,
+                        ForDesktop = removedForDesktop ? originalForDesktop : false
                     };
                     _registryManager.RemoveMenu(tempConfig);
                 }
@@ -659,6 +673,7 @@ namespace MenuManager
                 // 更新配置对象
                 _selectedConfig.ForFiles = forFiles;
                 _selectedConfig.ForDirectories = forDirectories;
+                _selectedConfig.ForDesktop = forDesktop;
 
                 // 保存配置
                 await _configManager.UpdateConfigAsync(_selectedIndex, _selectedConfig);
@@ -674,6 +689,7 @@ namespace MenuManager
                 _isUpdatingUI = true;
                 ForFilesCheckBox.IsChecked = _selectedConfig.ForFiles;
                 ForDirectoriesCheckBox.IsChecked = _selectedConfig.ForDirectories;
+                ForDesktopCheckBox.IsChecked = _selectedConfig.ForDesktop;
                 _isUpdatingUI = false;
             }
         }

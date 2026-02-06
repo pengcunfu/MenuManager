@@ -91,6 +91,10 @@ namespace MenuManager.Services
                 {
                     AddMenuForScope(config, false);
                 }
+                if (config.ForDesktop)
+                {
+                    AddMenuForDesktop(config);
+                }
             }
             catch (Exception ex)
             {
@@ -125,6 +129,29 @@ namespace MenuManager.Services
         }
 
         /// <summary>
+        /// 为桌面背景添加菜单
+        /// </summary>
+        private void AddMenuForDesktop(MenuConfig config)
+        {
+            var keyPath = $@"Directory\Background\shell\{config.Root}";
+            var commandKeyPath = $"{keyPath}\\command";
+            var commandValue = $"\"{config.Path}\" \"%V\"";
+
+            // 创建主菜单项
+            using (var key = Registry.ClassesRoot.CreateSubKey(keyPath))
+            {
+                key.SetValue("", config.Name);
+                key.SetValue("Icon", $"\"{config.Path}\"");
+            }
+
+            // 创建命令子键
+            using (var commandKey = Registry.ClassesRoot.CreateSubKey(commandKeyPath))
+            {
+                commandKey.SetValue("", commandValue);
+            }
+        }
+
+        /// <summary>
         /// 删除右键菜单
         /// </summary>
         public void RemoveMenu(MenuConfig config)
@@ -143,6 +170,10 @@ namespace MenuManager.Services
                 {
                     RemoveMenuForScope(config, false);
                 }
+                if (config.ForDesktop)
+                {
+                    RemoveMenuForDesktop(config);
+                }
             }
             catch (Exception ex)
             {
@@ -157,6 +188,15 @@ namespace MenuManager.Services
         {
             var scope = forFiles ? "*" : "Directory";
             var keyPath = $@"{scope}\shell\{config.Root}";
+            Registry.ClassesRoot.DeleteSubKeyTree(keyPath, false);
+        }
+
+        /// <summary>
+        /// 删除桌面背景菜单
+        /// </summary>
+        private void RemoveMenuForDesktop(MenuConfig config)
+        {
+            var keyPath = $@"Directory\Background\shell\{config.Root}";
             Registry.ClassesRoot.DeleteSubKeyTree(keyPath, false);
         }
 
@@ -188,10 +228,12 @@ namespace MenuManager.Services
                 // 检查注册表中每个范围的实际状态
                 bool forFilesEnabled = CheckMenuEnabledForScope(config, true);
                 bool forDirectoriesEnabled = CheckMenuEnabledForScope(config, false);
+                bool forDesktopEnabled = CheckMenuEnabledForDesktop(config);
 
                 // 同步到配置对象
                 config.ForFiles = forFilesEnabled;
                 config.ForDirectories = forDirectoriesEnabled;
+                config.ForDesktop = forDesktopEnabled;
             }
             return configs;
         }
@@ -206,6 +248,23 @@ namespace MenuManager.Services
                 var keyPath = forFiles
                     ? $@"*\shell\{config.Root}"
                     : $@"Directory\shell\{config.Root}";
+                using var key = Registry.ClassesRoot.OpenSubKey(keyPath);
+                return key != null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 检查桌面菜单是否启用
+        /// </summary>
+        private bool CheckMenuEnabledForDesktop(MenuConfig config)
+        {
+            try
+            {
+                var keyPath = $@"Directory\Background\shell\{config.Root}";
                 using var key = Registry.ClassesRoot.OpenSubKey(keyPath);
                 return key != null;
             }

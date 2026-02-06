@@ -13,6 +13,7 @@ namespace MenuManager.Models
         private string _path = string.Empty;
         private bool _forFiles;
         private bool _forDirectories;
+        private bool _forDesktop;
 
         /// <summary>
         /// 显示名称
@@ -104,6 +105,25 @@ namespace MenuManager.Models
         }
 
         /// <summary>
+        /// 是否应用于桌面
+        /// </summary>
+        [JsonProperty("for_desktop")]
+        public bool ForDesktop
+        {
+            get => _forDesktop;
+            set
+            {
+                if (_forDesktop != value)
+                {
+                    _forDesktop = value;
+                    OnPropertyChanged(nameof(ForDesktop));
+                    OnPropertyChanged(nameof(ScopeText));
+                    OnPropertyChanged(nameof(StatusText));
+                }
+            }
+        }
+
+        /// <summary>
         /// 是否启用（由ForFiles和ForDirectories自动决定）
         /// </summary>
         [JsonIgnore]
@@ -120,6 +140,7 @@ namespace MenuManager.Models
                 var scopes = new List<string>();
                 if (ForFiles) scopes.Add("文件");
                 if (ForDirectories) scopes.Add("目录");
+                if (ForDesktop) scopes.Add("桌面");
                 return scopes.Count > 0 ? $"✓ 已启用 ({string.Join(" + ", scopes)})" : "○ 未启用";
             }
         }
@@ -135,6 +156,7 @@ namespace MenuManager.Models
                 var scopes = new List<string>();
                 if (ForFiles) scopes.Add("文件");
                 if (ForDirectories) scopes.Add("目录");
+                if (ForDesktop) scopes.Add("桌面");
                 return scopes.Count > 0 ? string.Join(" + ", scopes) : "未设置";
             }
         }
@@ -157,7 +179,8 @@ namespace MenuManager.Models
                 Root = this.Root,
                 Path = this.Path,
                 ForFiles = this.ForFiles,
-                ForDirectories = this.ForDirectories
+                ForDirectories = this.ForDirectories,
+                ForDesktop = this.ForDesktop
             };
         }
     }

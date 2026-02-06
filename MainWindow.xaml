@@ -179,6 +179,10 @@
                                       Click="ForScopeCheckBox_Click"/>
                             <CheckBox x:Name="ForDirectoriesCheckBox"
                                       Content="应用于目录"
+                                      Margin="0,0,15,0"
+                                      Click="ForScopeCheckBox_Click"/>
+                            <CheckBox x:Name="ForDesktopCheckBox"
+                                      Content="应用于桌面"
                                       Margin="0,0"
                                       Click="ForScopeCheckBox_Click"/>
                         </StackPanel>
