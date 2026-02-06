@@ -93,14 +93,26 @@ namespace MenuManager
             {
                 await _configManager.LoadAsync();
                 var configs = _configManager.GetConfigs();
-                
+
                 // 刷新菜单状态
                 var refreshedConfigs = _registryManager.RefreshMenuStatus(configs);
-                
+
+                // 保存当前选中状态
+                int selectedIndex = ConfigListBox.SelectedIndex;
+
                 _configs.Clear();
                 foreach (var config in refreshedConfigs)
                 {
                     _configs.Add(config);
+                }
+
+                // 恢复选中状态（不触发UI更新）
+                if (selectedIndex >= 0 && selectedIndex < _configs.Count)
+                {
+                    _isUpdatingUI = true;
+                    ConfigListBox.SelectedIndex = selectedIndex;
+                    _selectedConfig = _configs[selectedIndex];
+                    _isUpdatingUI = false;
                 }
             }
             catch (Exception ex)
