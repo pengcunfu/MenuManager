@@ -12,7 +12,7 @@ namespace MenuManager.Models
         private string _root = string.Empty;
         private string _path = string.Empty;
         private bool _forFiles;
-        private bool _enabled;
+        private bool _forDirectories;
 
         /// <summary>
         /// 显示名称
@@ -66,7 +66,7 @@ namespace MenuManager.Models
         }
 
         /// <summary>
-        /// 是否应用于文件（否则应用于目录）
+        /// 是否应用于文件
         /// </summary>
         [JsonProperty("for_files")]
         public bool ForFiles
@@ -78,39 +78,66 @@ namespace MenuManager.Models
                 {
                     _forFiles = value;
                     OnPropertyChanged(nameof(ForFiles));
-                }
-            }
-        }
-
-        /// <summary>
-        /// 是否启用
-        /// </summary>
-        [JsonProperty("enabled")]
-        public bool Enabled
-        {
-            get => _enabled;
-            set
-            {
-                if (_enabled != value)
-                {
-                    _enabled = value;
-                    OnPropertyChanged(nameof(Enabled));
+                    OnPropertyChanged(nameof(ScopeText));
                     OnPropertyChanged(nameof(StatusText));
                 }
             }
         }
 
         /// <summary>
+        /// 是否应用于目录
+        /// </summary>
+        [JsonProperty("for_directories")]
+        public bool ForDirectories
+        {
+            get => _forDirectories;
+            set
+            {
+                if (_forDirectories != value)
+                {
+                    _forDirectories = value;
+                    OnPropertyChanged(nameof(ForDirectories));
+                    OnPropertyChanged(nameof(ScopeText));
+                    OnPropertyChanged(nameof(StatusText));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 是否启用（由ForFiles和ForDirectories自动决定）
+        /// </summary>
+        [JsonIgnore]
+        public bool Enabled => ForFiles || ForDirectories;
+
+        /// <summary>
         /// 状态文本（用于UI显示）
         /// </summary>
         [JsonIgnore]
-        public string StatusText => Enabled ? "✓ 已启用" : "○ 已禁用";
+        public string StatusText
+        {
+            get
+            {
+                var scopes = new List<string>();
+                if (ForFiles) scopes.Add("文件");
+                if (ForDirectories) scopes.Add("目录");
+                return scopes.Count > 0 ? $"✓ 已启用 ({string.Join(" + ", scopes)})" : "○ 未启用";
+            }
+        }
 
         /// <summary>
         /// 应用范围文本（用于UI显示）
         /// </summary>
         [JsonIgnore]
-        public string ScopeText => ForFiles ? "文件" : "目录";
+        public string ScopeText
+        {
+            get
+            {
+                var scopes = new List<string>();
+                if (ForFiles) scopes.Add("文件");
+                if (ForDirectories) scopes.Add("目录");
+                return scopes.Count > 0 ? string.Join(" + ", scopes) : "未设置";
+            }
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -130,7 +157,7 @@ namespace MenuManager.Models
                 Root = this.Root,
                 Path = this.Path,
                 ForFiles = this.ForFiles,
-                Enabled = this.Enabled
+                ForDirectories = this.ForDirectories
             };
         }
     }

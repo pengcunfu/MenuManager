@@ -102,15 +102,12 @@
                                            FontWeight="Medium" 
                                            FontSize="14"/>
 
-                                <!-- 状态和范围 -->
-                                <TextBlock Grid.Row="1" Grid.Column="1" 
-                                           Margin="0,2,0,0" 
-                                           FontSize="11" 
-                                           Foreground="#6C757D">
-                                    <Run Text="{Binding StatusText, Mode=OneWay}"/>
-                                    <Run Text=" | "/>
-                                    <Run Text="{Binding ScopeText, Mode=OneWay}"/>
-                                </TextBlock>
+                                <!-- 状态 -->
+                                <TextBlock Grid.Row="1" Grid.Column="1"
+                                           Margin="0,2,0,0"
+                                           FontSize="11"
+                                           Foreground="#6C757D"
+                                           Text="{Binding StatusText, Mode=OneWay}"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -175,17 +172,16 @@
 
                         <!-- 应用范围 -->
                         <Label Content="应用范围：" FontWeight="Medium" Margin="0,15,0,2"/>
-                        <CheckBox x:Name="ForFilesCheckBox" 
-                                  Content="应用于文件（否则应用于目录）"
-                                  Margin="0,5"/>
-
-                        <!-- 启用状态 -->
-                        <Label Content="状态：" FontWeight="Medium" Margin="0,15,0,2"/>
-                        <CheckBox x:Name="EnabledCheckBox" 
-                                  Content="启用右键菜单"
-                                  Margin="0,5"
-                                  Checked="EnabledCheckBox_Checked"
-                                  Unchecked="EnabledCheckBox_Unchecked"/>
+                        <StackPanel Margin="0,5" Orientation="Horizontal">
+                            <CheckBox x:Name="ForFilesCheckBox"
+                                      Content="应用于文件"
+                                      Margin="0,0,15,0"
+                                      Click="ForScopeCheckBox_Click"/>
+                            <CheckBox x:Name="ForDirectoriesCheckBox"
+                                      Content="应用于目录"
+                                      Margin="0,0"
+                                      Click="ForScopeCheckBox_Click"/>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
 

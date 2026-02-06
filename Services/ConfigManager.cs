@@ -186,16 +186,16 @@ namespace MenuManager.Services
         {
             _configs = new List<MenuConfig>
             {
-                new MenuConfig { Name = "VSCode", Root = "vscode", Path = @"C:\Program Files\Microsoft VS Code\Code.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "PyCharm", Root = "pycharm", Path = @"D:\App\IDE\JetBrains\PyCharm 2023.3.1\bin\pycharm64.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "IDEA", Root = "idea64", Path = @"D:\App\Dev\JetBrains\IntelliJ IDEA 2023.3.1\bin\idea64.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "PhpStorm", Root = "phpstorm", Path = @"D:\Peng\App\Software\JetBrains\PhpStorm 2023.3.1\bin\phpstorm64.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "GoLand", Root = "goland", Path = @"D:\App\IDE\JetBrains\GoLand 2023.3.1\bin\goland64.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "Cursor", Root = "cursor", Path = @"D:\App\IDE\Cursor\Cursor.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "Trae", Root = "trae", Path = @"D:\App\IDE\Trae\Trae.exe", ForFiles = false, Enabled = false },
-                new MenuConfig { Name = "Notepad++", Root = "notepadpp", Path = @"C:\Program Files\Notepad++\notepad++.exe", ForFiles = true, Enabled = false },
-                new MenuConfig { Name = "Sublime Text", Root = "sublimetext", Path = @"C:\Program Files\Sublime Text\sublime_text.exe", ForFiles = true, Enabled = false },
-                new MenuConfig { Name = "记事本", Root = "notepad", Path = @"C:\Windows\System32\notepad.exe", ForFiles = true, Enabled = false }
+                new MenuConfig { Name = "VSCode", Root = "vscode", Path = @"C:\Program Files\Microsoft VS Code\Code.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "PyCharm", Root = "pycharm", Path = @"D:\App\IDE\JetBrains\PyCharm 2023.3.1\bin\pycharm64.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "IDEA", Root = "idea64", Path = @"D:\App\Dev\JetBrains\IntelliJ IDEA 2023.3.1\bin\idea64.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "PhpStorm", Root = "phpstorm", Path = @"D:\Peng\App\Software\JetBrains\PhpStorm 2023.3.1\bin\phpstorm64.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "GoLand", Root = "goland", Path = @"D:\App\IDE\JetBrains\GoLand 2023.3.1\bin\goland64.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "Cursor", Root = "cursor", Path = @"D:\App\IDE\Cursor\Cursor.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "Trae", Root = "trae", Path = @"D:\App\IDE\Trae\Trae.exe", ForFiles = false, ForDirectories = false },
+                new MenuConfig { Name = "Notepad++", Root = "notepadpp", Path = @"C:\Program Files\Notepad++\notepad++.exe", ForFiles = true, ForDirectories = false },
+                new MenuConfig { Name = "Sublime Text", Root = "sublimetext", Path = @"C:\Program Files\Sublime Text\sublime_text.exe", ForFiles = true, ForDirectories = false },
+                new MenuConfig { Name = "记事本", Root = "notepad", Path = @"C:\Windows\System32\notepad.exe", ForFiles = true, ForDirectories = false }
             };
         }
     }

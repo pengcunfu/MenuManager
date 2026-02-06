@@ -82,28 +82,45 @@ namespace MenuManager.Services
 
             try
             {
-                var keyPath = GetRegistryKeyPath(config);
-                var commandKeyPath = $"{keyPath}\\command";
-
-                // 创建主菜单项
-                using (var key = Registry.ClassesRoot.CreateSubKey(keyPath))
+                // 根据配置添加对应范围的菜单
+                if (config.ForFiles)
                 {
-                    key.SetValue("", config.Name);
-                    key.SetValue("Icon", $"\"{config.Path}\"");
+                    AddMenuForScope(config, true);
                 }
-
-                // 创建命令子键
-                using (var commandKey = Registry.ClassesRoot.CreateSubKey(commandKeyPath))
+                if (config.ForDirectories)
                 {
-                    var commandValue = config.ForFiles 
-                        ? $"\"{config.Path}\" \"%1\""
-                        : $"\"{config.Path}\" \"%V\"";
-                    commandKey.SetValue("", commandValue);
+                    AddMenuForScope(config, false);
                 }
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"添加菜单失败: {ex.Message}", ex);
+            }
+        }
+
+        /// <summary>
+        /// 为特定范围添加菜单
+        /// </summary>
+        private void AddMenuForScope(MenuConfig config, bool forFiles)
+        {
+            var scope = forFiles ? "*" : "Directory";
+            var keyPath = $@"{scope}\shell\{config.Root}";
+            var commandKeyPath = $"{keyPath}\\command";
+            var commandValue = forFiles
+                ? $"\"{config.Path}\" \"%1\""
+                : $"\"{config.Path}\" \"%V\"";
+
+            // 创建主菜单项
+            using (var key = Registry.ClassesRoot.CreateSubKey(keyPath))
+            {
+                key.SetValue("", config.Name);
+                key.SetValue("Icon", $"\"{config.Path}\"");
+            }
+
+            // 创建命令子键
+            using (var commandKey = Registry.ClassesRoot.CreateSubKey(commandKeyPath))
+            {
+                commandKey.SetValue("", commandValue);
             }
         }
 
@@ -117,8 +134,15 @@ namespace MenuManager.Services
 
             try
             {
-                var keyPath = GetRegistryKeyPath(config);
-                Registry.ClassesRoot.DeleteSubKeyTree(keyPath, false);
+                // 根据配置删除对应范围的菜单
+                if (config.ForFiles)
+                {
+                    RemoveMenuForScope(config, true);
+                }
+                if (config.ForDirectories)
+                {
+                    RemoveMenuForScope(config, false);
+                }
             }
             catch (Exception ex)
             {
@@ -127,12 +151,22 @@ namespace MenuManager.Services
         }
 
         /// <summary>
+        /// 为特定范围删除菜单
+        /// </summary>
+        private void RemoveMenuForScope(MenuConfig config, bool forFiles)
+        {
+            var scope = forFiles ? "*" : "Directory";
+            var keyPath = $@"{scope}\shell\{config.Root}";
+            Registry.ClassesRoot.DeleteSubKeyTree(keyPath, false);
+        }
+
+        /// <summary>
         /// 更新菜单状态（启用或禁用）
         /// </summary>
         public void UpdateMenuStatus(MenuConfig config, bool enabled)
         {
-            if (enabled == config.Enabled)
-                return; // 状态未改变
+            // UpdateMenuStatus现在只负责添加或删除菜单
+            // 不再修改config.ForFiles或config.ForDirectories，因为那是UI层的职责
 
             if (enabled)
             {
@@ -142,8 +176,6 @@ namespace MenuManager.Services
             {
                 RemoveMenu(config);
             }
-
-            config.Enabled = enabled;
         }
 
         /// <summary>
@@ -153,9 +185,34 @@ namespace MenuManager.Services
         {
             foreach (var config in configs)
             {
-                config.Enabled = IsMenuEnabled(config);
+                // 检查注册表中每个范围的实际状态
+                bool forFilesEnabled = CheckMenuEnabledForScope(config, true);
+                bool forDirectoriesEnabled = CheckMenuEnabledForScope(config, false);
+
+                // 同步到配置对象
+                config.ForFiles = forFilesEnabled;
+                config.ForDirectories = forDirectoriesEnabled;
             }
             return configs;
+        }
+
+        /// <summary>
+        /// 检查特定范围的菜单是否启用
+        /// </summary>
+        private bool CheckMenuEnabledForScope(MenuConfig config, bool forFiles)
+        {
+            try
+            {
+                var keyPath = forFiles
+                    ? $@"*\shell\{config.Root}"
+                    : $@"Directory\shell\{config.Root}";
+                using var key = Registry.ClassesRoot.OpenSubKey(keyPath);
+                return key != null;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>

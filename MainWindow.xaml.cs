@@ -149,19 +149,19 @@ namespace MenuManager
         private void LoadConfigToUI(MenuConfig config)
         {
             _isUpdatingUI = true;
-            
+
             NameTextBox.Text = config.Name;
             RootTextBox.Text = config.Root;
             PathTextBox.Text = config.Path;
             ForFilesCheckBox.IsChecked = config.ForFiles;
-            EnabledCheckBox.IsChecked = config.Enabled;
-            
+            ForDirectoriesCheckBox.IsChecked = config.ForDirectories;
+
             // 更新标题
             ConfigDetailsGroupBox.Header = $"配置详情 - {config.Name}";
-            
+
             // 更新按钮状态
             UpdateButtonStates();
-            
+
             _isUpdatingUI = false;
         }
 
@@ -171,19 +171,19 @@ namespace MenuManager
         private void ClearUI()
         {
             _isUpdatingUI = true;
-            
+
             NameTextBox.Text = string.Empty;
             RootTextBox.Text = string.Empty;
             PathTextBox.Text = string.Empty;
             ForFilesCheckBox.IsChecked = false;
-            EnabledCheckBox.IsChecked = false;
-            
+            ForDirectoriesCheckBox.IsChecked = false;
+
             // 更新标题
             ConfigDetailsGroupBox.Header = _isAddingNew ? "配置详情 - 新增配置" : "配置详情";
-            
+
             // 更新按钮状态
             UpdateButtonStates();
-            
+
             _isUpdatingUI = false;
         }
 
@@ -224,7 +224,7 @@ namespace MenuManager
                 RootTextBox.Text = "";
                 PathTextBox.Text = "";
                 ForFilesCheckBox.IsChecked = false;
-                EnabledCheckBox.IsChecked = false;
+                ForDirectoriesCheckBox.IsChecked = false;
                 _isUpdatingUI = false;
                 
                 // 更新标题
@@ -261,7 +261,7 @@ namespace MenuManager
                     Root = root,
                     Path = path,
                     ForFiles = ForFilesCheckBox.IsChecked ?? false,
-                    Enabled = _isAddingNew ? false : (_selectedConfig?.Enabled ?? false) // 新配置默认不启用，现有配置保持原状态
+                    ForDirectories = ForDirectoriesCheckBox.IsChecked ?? false
                 };
 
                 // 验证配置
@@ -429,7 +429,7 @@ namespace MenuManager
                 var name = NameTextBox.Text.Trim();
                 var root = RootTextBox.Text.Trim();
                 var path = PathTextBox.Text.Trim();
-                var enabled = EnabledCheckBox.IsChecked ?? false;
+                var enabled = (ForFilesCheckBox.IsChecked ?? false) || (ForDirectoriesCheckBox.IsChecked ?? false);
 
                 var newConfig = new MenuConfig
                 {
@@ -437,7 +437,7 @@ namespace MenuManager
                     Root = root,
                     Path = path,
                     ForFiles = ForFilesCheckBox.IsChecked ?? false,
-                    Enabled = enabled
+                    ForDirectories = ForDirectoriesCheckBox.IsChecked ?? false
                 };
 
                 // 验证配置
@@ -553,27 +553,25 @@ namespace MenuManager
         /// <summary>
         /// 启用状态变更
         /// </summary>
-        private async void EnabledCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            await ToggleMenuStatusAsync(true);
-        }
-
-        private async void EnabledCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            await ToggleMenuStatusAsync(false);
-        }
-
         /// <summary>
-        /// 切换菜单状态
+        /// 应用范围CheckBox变更事件
         /// </summary>
-        private async Task ToggleMenuStatusAsync(bool enabled)
+        private async void ForScopeCheckBox_Click(object sender, RoutedEventArgs e)
         {
             if (_isUpdatingUI || _selectedConfig == null || _selectedIndex < 0)
                 return;
 
             try
             {
-                // 如果要启用，先验证配置
+                var forFiles = ForFilesCheckBox.IsChecked ?? false;
+                var forDirectories = ForDirectoriesCheckBox.IsChecked ?? false;
+                var enabled = forFiles || forDirectories;
+
+                // 保存原始状态
+                var originalForFiles = _selectedConfig.ForFiles;
+                var originalForDirectories = _selectedConfig.ForDirectories;
+
+                // 如果要启用（至少选中一个范围），先验证配置
                 if (enabled)
                 {
                     var tempConfig = new MenuConfig
@@ -581,7 +579,8 @@ namespace MenuManager
                         Name = NameTextBox.Text.Trim(),
                         Root = RootTextBox.Text.Trim(),
                         Path = PathTextBox.Text.Trim(),
-                        ForFiles = ForFilesCheckBox.IsChecked ?? false
+                        ForFiles = forFiles,
+                        ForDirectories = forDirectories
                     };
 
                     try
@@ -592,7 +591,8 @@ namespace MenuManager
                     {
                         ShowError($"请先完善配置信息: {ex.Message}");
                         _isUpdatingUI = true;
-                        EnabledCheckBox.IsChecked = false;
+                        ForFilesCheckBox.IsChecked = originalForFiles;
+                        ForDirectoriesCheckBox.IsChecked = originalForDirectories;
                         _isUpdatingUI = false;
                         return;
                     }
@@ -608,7 +608,8 @@ namespace MenuManager
                         if (result != MessageBoxResult.Yes)
                         {
                             _isUpdatingUI = true;
-                            EnabledCheckBox.IsChecked = false;
+                            ForFilesCheckBox.IsChecked = originalForFiles;
+                            ForDirectoriesCheckBox.IsChecked = originalForDirectories;
                             _isUpdatingUI = false;
                             return;
                         }
@@ -618,11 +619,46 @@ namespace MenuManager
                     _selectedConfig.Name = tempConfig.Name;
                     _selectedConfig.Root = tempConfig.Root;
                     _selectedConfig.Path = tempConfig.Path;
-                    _selectedConfig.ForFiles = tempConfig.ForFiles;
                 }
 
                 // 更新菜单状态
-                _registryManager.UpdateMenuStatus(_selectedConfig, enabled);
+                // 检查每个范围的变化
+                var addedForFiles = forFiles && !originalForFiles;
+                var addedForDirectories = forDirectories && !originalForDirectories;
+                var removedForFiles = !forFiles && originalForFiles;
+                var removedForDirectories = !forDirectories && originalForDirectories;
+
+                if (addedForFiles || addedForDirectories)
+                {
+                    // 添加新选中的范围
+                    var tempConfig = new MenuConfig
+                    {
+                        Name = _selectedConfig.Name,
+                        Root = _selectedConfig.Root,
+                        Path = _selectedConfig.Path,
+                        ForFiles = addedForFiles,
+                        ForDirectories = addedForDirectories
+                    };
+                    _registryManager.AddMenu(tempConfig);
+                }
+
+                if (removedForFiles || removedForDirectories)
+                {
+                    // 删除取消选中的范围（使用原始状态）
+                    var tempConfig = new MenuConfig
+                    {
+                        Name = _selectedConfig.Name,
+                        Root = _selectedConfig.Root,
+                        Path = _selectedConfig.Path,
+                        ForFiles = removedForFiles ? originalForFiles : false,
+                        ForDirectories = removedForDirectories ? originalForDirectories : false
+                    };
+                    _registryManager.RemoveMenu(tempConfig);
+                }
+
+                // 更新配置对象
+                _selectedConfig.ForFiles = forFiles;
+                _selectedConfig.ForDirectories = forDirectories;
 
                 // 保存配置
                 await _configManager.UpdateConfigAsync(_selectedIndex, _selectedConfig);
@@ -633,10 +669,11 @@ namespace MenuManager
             catch (Exception ex)
             {
                 ShowError($"更新菜单状态失败: {ex.Message}");
-                
+
                 // 恢复原状态
                 _isUpdatingUI = true;
-                EnabledCheckBox.IsChecked = _selectedConfig.Enabled;
+                ForFilesCheckBox.IsChecked = _selectedConfig.ForFiles;
+                ForDirectoriesCheckBox.IsChecked = _selectedConfig.ForDirectories;
                 _isUpdatingUI = false;
             }
         }
